@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Search</title>
+    <style>
+        label{
+            font-size:1em;
+            color:saddleBrown;
+        }
+        body{
+        	background-color:beige;
+        }
+        .reminder{
+        	color:gray;
+        }
+        .heading{
+        	color:burlyWood;
+            font-size:1.5em;
+		}
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>Inventory Management System</h1>
+    </div>
+    <form>
+        <button type="submit" formaction="/home">home</button>
+    </form>
+    <form action="/detail" method="post">
+    	<br>
+        <label for="username"><b>itemID:</b></label>
+        <input type="text" id="itemID" name="itemID" placeholder="">
+    	<button type="submit">search</button>
+    </form>
+    <b class="reminder">enter itemID to search for details or create a new item.</b>
+</body>
+</html>
+
+    

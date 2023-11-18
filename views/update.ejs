@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+    <style>
+        label{
+            font-size:1em;
+            color:saddleBrown;
+            width:200;
+        }
+        body{
+        	background-color:beige;
+        }
+        .heading{
+        	color:burlyWood;
+            font-size:1.5em;
+		}
+        li{
+        	color:saddleBrown;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>Inventory Management System</h1>
+    </div>
+    <form>
+        <button type="submit" formaction="/home">home</button>
+    </form>
+    <div>
+    	<ul>
+        	<% for (var i of items) { %>
+            <li>name: <%= i.itemname %></li>
+			<ul><li>id: <%= i._id %></li>
+            	<li>quantity: <%= i.quantity %></li>
+                <li>category: <%= i.category %></li>
+                <li>desc: <%= i.desc %></li>
+			</ul>
+            <% } %>
+        </ul>
+    </div>
+    <form action="/update" method="post">
+        <label for='username'><b>quantity:</b></label>
+        <input type="text" id="quantity" name="quantity" placeholder="">
+        <br><br>
+        <button type="submit">update</button>
+        <br>
+    </form>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home</title>
+    <style>
+        label{
+            font-size:1em;
+            color:saddleBrown;
+        }
+        body{
+        	background-color:beige;
+        }
+        .item_num{
+        	color:gray;
+        }
+        .heading{
+        	color:burlyWood;
+            font-size:1.5em;
+		}
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>Inventory Management System</h1>
+    </div>
+    <form>
+        <button type="submit" formaction="/create">create</button>
+        <label>|</label>
+        <button type="submit" formaction="/search">search</button>
+        <label>|</label>
+        <button type="submit" formaction="/logout">logout</button>
+    </form>
+    <br>
+    <b class="item_num">There are <%= item_num %> in total.</b>
+    <div>
+    	<ul>
+        	<% for (var i of items) { %>
+            <li><%= i.itemname %>: <%= i._id %></li>
+            <% } %>
+        </ul>
+    </div>
+</body>
+</html>

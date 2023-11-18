@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create</title>
+    <style>
+        label{
+            font-size:1em;
+            color:saddleBrown;
+            width:200;
+        }
+        body{
+        	background-color:beige;
+        }
+        .heading{
+        	color:burlyWood;
+            font-size:1.5em;
+		}
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>Inventory Management System</h1>
+    </div>
+    <form>
+        <button type="submit" formaction="/home">home</button>
+    </form>
+    <form action="/create" method="post">
+    	<br>
+        <label for='username'><b>name:</b></label>
+        <input type="text" id="name" name="name" placeholder="">
+        <br>
+        <label for='username'><b>quantity:</b></label>
+        <input type="text" id="quantity" name="quantity" placeholder="">
+        <br>
+        <label for='username'><b>category:</b></label>
+        <input type="text" id="category" name="category" placeholder="">
+        <br>
+        <label for='username'><b>desc:</b></label>
+        <input type="text" id="desc" name="desc" placeholder="">
+        <br><br>
+        <button type="submit">create</button>
+        <br>
+    </form>
+</body>
+</html>
