@@ -37,7 +37,7 @@ app.get('/logout', function(req, res){
 
 app.get('/home', function(req, res){
     console.log("...Welcome to the home page!");
-    return res.status(200).render("home");
+    return res.status(200).render("home", {item_num: 999, test1: "itemname", test2: "itemID"});
 });
 
 app.get('/search', function(req, res){
