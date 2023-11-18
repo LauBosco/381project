@@ -56,7 +56,7 @@ app.get('/create', function(req, res){
 
 app.post('/create', function(req, res){
     console.log("...Item created successfully!")
-    return res.status(200).render("home");
+    return res.status(200).redirect("/home");
 });
 
 app.get('/update', function(req,res) {
@@ -66,12 +66,12 @@ app.get('/update', function(req,res) {
 
 app.post('/update', function(req, res){
     console.log("...Item updated successfully!")
-    return res.status(200).render("home");
+    return res.status(200).redirect("/home");
 });
 
 app.get('/delete', function(req, res){
     console.log("...Item deleted successfully!")
-    return res.status(200).render("home");
+    return res.status(200).redirect("/home");
 });
 
 
