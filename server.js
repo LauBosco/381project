@@ -12,6 +12,8 @@ const app = express();
 const session = require('cookie-session');
 const SECRETKEY = 'cs381'; //?
 
+app.set('view engine', 'ejs');
+
 //Routing
 app.get('/', function(req, res){
     res.redirect("/login");
@@ -147,3 +149,5 @@ app.delete("/api/item/itemID/:itemID", function(req,res){
 //list: see if define new one of put inside, find with if-else(id<0), wait CRUD for criteria actions
 
 //update: ref create but update action
+
+app.listen(process.env.PORT || 8099);
