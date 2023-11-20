@@ -23,6 +23,7 @@ app.use(session({
     userid: "session",
     keys: [SECRETKEY],
 }));
+app.use(express.json());
 
 //Routing
 app.get('/', function(req, res){
