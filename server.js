@@ -19,6 +19,10 @@ var userAccount = new Array(
 );
 
 app.set('view engine', 'ejs');
+app.use(session({
+    userid: "session",
+    keys: [SECRETKEY],
+}));
 app.use(express.json());
 
 //Routing
