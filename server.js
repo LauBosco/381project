@@ -10,16 +10,31 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const session = require('cookie-session');
-const SECRETKEY = 'cs381'; //?
+const SECRETKEY = 'akey';
+
+var userAccount = new Array(
+    {name: "user1", password: "password1"},
+    {name: "user2", password: "password2"},
+    {name: "user3", password: "password3"}
+);
 
 app.set('view engine', 'ejs');
+app.use(session({
+    userid: "session",
+    keys: [SECRETKEY],
+}));
 
 //Routing
 app.get('/', function(req, res){
-    res.redirect("/login");
+    if(!req.session.authenticated){
+        console.log("user not authenticated; directing to login");
+        res.redirect("/login");
+    }else{
+        res.redirect("/login");
+    }
+    console.log("Welcome back " + req.session.userid);
 });
 
-//login
 app.get('/login', function(req, res){
     console.log("...Welcome to login page.")
     res.sendFile(__dirname + '/public/login.html');
@@ -27,8 +42,18 @@ app.get('/login', function(req, res){
 });
 
 app.post('/login', function(req, res){
-    console.log("...Handling your login request");
-    return res.status(200).redirect("/home");
+    for (const account in userAccount){
+        if (userAccount[account]["name"] == req.body.username && userAccount[account]["password"] == req.body.password) {
+        req.session.authenticated = true;
+        req.session.userid = userAccount[account]["name"];
+        console.log(req.session.userid);
+        return res.status(200).redirect("/home");
+        }
+        else {
+            console.log("Error username or password.");
+            return res.redirect("/");
+        }
+    }
 });
 
 app.get('/logout', function(req, res){
