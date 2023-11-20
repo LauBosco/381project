@@ -47,18 +47,16 @@ app.post('/login', function(req, res){
     console.log("client:", req.body.username, req.body.password)
     for (const account in userAccount){
         console.log("...Handling your login request");
-        console.log("client:", userAccount[account]["name"], userAccount[account]["password"])
+        console.log("server:", userAccount[account]["name"], userAccount[account]["password"])
         if (userAccount[account]["name"] == req.body.username && userAccount[account]["password"] == req.body.password) {
         req.session.authenticated = true;
         req.session.userid = userAccount[account]["name"];
         console.log(req.session.userid);
         return res.status(200).redirect("/home");
         }
-        else {
-            console.log("Error username or password.");
-            return res.redirect("/");
-        }
     }
+    console.log("Error username or password.");
+    return res.redirect("/");
 });
 
 app.get('/logout', function(req, res){
