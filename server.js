@@ -44,10 +44,10 @@ app.get('/login', function(req, res){
 
 app.post('/login', function(req, res){
     console.log("...Handling your login request");
-    for (var i=0; i<usersinfo.length; i++){
-        if (usersinfo[i].name == req.body.username && usersinfo[i].password == req.body.password) {
+    for (var i=0; i<userAccount.length; i++){
+        if (userAccount[i].name == req.body.username && userAccount[i].password == req.body.password) {
             req.session.authenticated = true;
-            req.session.userid = usersinfo[i].name;
+            req.session.userid = userAccount[i].name;
             console.log(req.session.userid);
             return res.status(200).redirect("/home");
         }
