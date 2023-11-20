@@ -24,6 +24,7 @@ app.use(session({
     keys: [SECRETKEY],
 }));
 app.use(express.json());
+app.use(express.urlencoded());
 
 //Routing
 app.get('/', function(req, res){
