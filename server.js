@@ -44,18 +44,19 @@ app.get('/login', function(req, res){
 });
 
 app.post('/login', function(req, res){
-    console.log("...Handling your login request");
-    for (var i=0; i<userAccount.length; i++){
-        console.log(req)
-        if (userAccount[i].name == req.body.username && userAccount[i].password == req.body.password) {
-            req.session.authenticated = true;
-            req.session.userid = userAccount[i].name;
-            console.log(req.session.userid);
-            return res.status(200).redirect("/home");
+    for (const account in userAccount){
+        console.log("...Handling your login request");
+        if (userAccount[account]["name"] == req.body.username && userAccount[account]["password"] == req.body.password) {
+        req.session.authenticated = true;
+        req.session.userid = userAccount[account]["name"];
+        console.log(req.session.userid);
+        return res.status(200).redirect("/home");
+        }
+        else {
+            console.log("Error username or password.");
+            return res.redirect("/");
         }
     }
-        console.log("Error username or password.");
-        return res.redirect("/");
 });
 
 app.get('/logout', function(req, res){
