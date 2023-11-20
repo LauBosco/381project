@@ -45,7 +45,7 @@ app.get('/login', function(req, res){
 app.post('/login', function(req, res){
     console.log("...Handling your login request");
     for (var i=0; i<userAccount.length; i++){
-        console.log("server:name=", account.name, "pw=", account.password, "client:name", req.body.username, "pw=", req.body.password)
+        console.log("server:name=", userAccount[i].name, "pw=", userAccount[i].password, "client:name", req.body.username, "pw=", req.body.password)
         if (userAccount[i].name == req.body.username && userAccount[i].password == req.body.password) {
             req.session.authenticated = true;
             req.session.userid = userAccount[i].name;
