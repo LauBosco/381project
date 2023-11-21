@@ -21,6 +21,9 @@ var userAccount = new Array(
     {name: "user3", password: "password3"}
 );
 
+let currentItem = "";
+let deleteMsg = "";
+
 app.set('view engine', 'ejs');
 app.use(session({
     userid: "session",
@@ -30,7 +33,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 //CRUD
-const handle_Find = function(res, criteria, callback){
+//read
+const findItem = function(res, criteria, callback){
     mongoose.connect(mongourl);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error'));
@@ -48,6 +52,27 @@ const handle_Find = function(res, criteria, callback){
         	console.log("Closed DB connection");
         }
     });
+}
+
+//update
+const updateItem = function(criteria, updateQuantity, callback){
+    mongoose.connect(mongourl);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+	db.once('open', async () => {
+		let Items = mongoose.model('Items', itemSchema);
+		try{
+			const updateValue={'quantity':updateQuantity};
+			const updateResult = await Items.updateOne(criteria,updateValue).exec();
+			return callback(updateResult.acknowledged);
+		}catch(err){
+			console.error(err);
+			console.log("Error occurred");
+		}finally{
+			db.close();
+			console.log("Closed DB update connection")
+		}
+	});
 }
 
 //Routing
@@ -90,7 +115,7 @@ app.get('/logout', function(req, res){
 
 app.get('/home', function(req, res){
     console.log("...Welcome to the home page!");
-    handle_Find(res,{}, function(foundItems){
+    findItem(res,{}, function(foundItems){
         var amount = foundItems.length;
         var quantity = 0;
         for (var item in foundItems){
@@ -102,64 +127,147 @@ app.get('/home', function(req, res){
 
 app.get('/search', function(req, res){
     console.log("...Welcome to the search page!");
-    return res.status(200).render("search");
+    return res.status(200).render("search", {msg:"");
 });
 
 app.post('/detail', function(req, res){
-    res.status(200).render('display', {test_var: "success"});
+    const criteria = {};
+    if (req.body.itemID){
+    	criteria['id'] = req.body.itemID;
+    }
+    if (req.body.itemName){
+    	criteria['name'] = req.body.itemName;
+    }
+    findItem(res,criteria, function(oneItem){
+    	if (oneItem.length>=1){
+    		currentItem = oneItem;
+    		return res.status(200).render('detail', {msg:'Found 1 matching item:  ',foundItems: oneItem});
+    	}else{
+    		return res.status(200).render('search', {msg:'Could not find anything by inputted id or name, sorry!'});
+    	}
+    });
 });
 
 app.get('/create', function(req, res){
     console.log("...Welcome to the create page!");
-    return res.status(200).render("create");
+    return res.status(200).render("create", {message:""});
 });
 
 app.post('/create', function(req, res){
-    console.log("...Item created successfully!")
-    return res.status(200).redirect("/home");
+    mongoose.connect(mongourl);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+    db.once('open', async () => {
+    	const Item = mongoose.model('Items',itemSchema);
+    	try{
+       	    let items={};
+            items["id"] = req.body.itemID;	
+            items['name']= req.body.name;
+            items['description']= req.body.desc;
+            items['category']= req.body.category;
+            items['quantity']= req.body.quantity;
+            if(req.body.pic){
+                items['pic']= req.body.pic;
+            }
+            const newItem = new Item(items);
+            const createItem = await newItem.save();
+            console.log(createItem);
+            console.log('Item created!');
+            return res.status(200).render("create", {message:"Item is created successfully!"});
+        }catch (err){
+            console.error(err);
+            return res.status(200).render("create", {message:"Item create failed!"});
+        } finally{
+            db.close();
+        }    
+    });
 });
 
 app.get('/update', function(req,res) {
     console.log("...Welcome to the update page!");
-    return res.status(200).render("update");
-})
-
-app.post('/update', function(req, res){
-    console.log("...Item updated successfully!")
-    return res.status(200).redirect("/home");
+    let criteria={};
+    criteria['id']=currentItem[0].id;
+    findItem(res,criteria, function(oneItem){
+    	currentItem = oneItem;
+    	return res.status(200).render('update', {msg:'',foundItems: oneItem});
+	});
 });
 
+app.post('/update', function(req, res){
+	mongoose.connect(mongourl);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+	db.once('open', async () => {
+		let Items = mongoose.model('Items', itemSchema);
+		try{
+			let originalItem={};
+			originalItem['id']=currentItem[0].id;
+			const updateValue={'quantity':Number(req.body.quantity)};
+			const updateResult = await Items.findOneAndUpdate(originalItem,updateValue,{new: true});
+			console.log(updateResult);
+			return res.status(200).render("detail", {msg:`Updated item quantity to ${req.body.quantity}`,foundItems:[updateResult]});
+			console.log("update success")
+		}catch(err){
+			console.error(err);
+			console.log("Error occurred");
+		}finally{
+			db.close();
+			console.log("Closed DB update connection")
+		}
+	});
+});
+
+
 app.get('/delete', function(req, res){
-    console.log("...Item deleted successfully!")
-    return res.status(200).redirect("/home");
+    mongoose.connect(mongourl);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+	db.once('open', async () => {
+		try{
+			let Items = mongoose.model('Items', itemSchema);
+    		let criteria={};
+    		criteria['id'] = currentItem[0].id;
+    		const deleteResult = await Items.findOneAndDelete(criteria);
+    		console.log(deleteResult);
+    		deleteMsg=`Item ${currentItem[0].id} is successfully deleted.`;
+    		return res.status(200).redirect("/home");
+    	}catch(err){
+    		console.error(err);
+    		console.log("Error occurred");
+    	}finally{
+    		db.close();
+    		console.log("Closed DB delete connection")
+    	}
+	});
 });
 
 
 
 //Restful
 //insert
-app.post("/api/item/insert/itemID/:itemID", function(req,res) {
-    if (req.params.itemID) {
-        console.log(req.body)
-        const client = new MongoClient(mongourl);
-        client.connect(function(err){
-            assert.equal(null,err);
-            console.log("Server connected successfully");
-            const db = client.db(dbName);
-            let newDocument = {};
-            newDocument["itemID"] = req.body.itemID;
-
-   	db.collection("items").insertOne(newDocument, function(err,results){
-                assert.equal(err,null);
-                client.close()
-                res.status(200).end()
-                    });
-          
-                })
-            }
-        else {
-        res.status(500).json({"error": "missing item ID"});
-    }
+app.post("/api/item/insert/itemID/:itemID/name/:name/quantity/:quantity", function(req,res) {
+    mongoose.connect(mongourl);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+    db.once('open', async () => {
+    	const Item = mongoose.model('Items',itemSchema);
+    	try{
+       	    let items={};
+            items["id"] = req.params.itemID;	
+            items['name']= req.params.name;
+            items['quantity']= req.params.quantity;
+            const newItem = new Item(items);
+            const createItem = await newItem.save();
+            console.log(createItem);
+            console.log('Item created!');
+            return res.status(200).json({"message": "item created successfully"});
+        }catch (err){
+            console.error(err);
+            return res.status(500).json({"error": "missing information"});
+        } finally{
+            db.close();
+        }    
+    });
 })
 
 //find
@@ -167,7 +275,7 @@ app.get("/api/item/find/itemID/:itemID", function(req,res) {
     if (req.params.itemID) {
         let criteria = {};
         criteria["_id"] = req.params.itemID;
-        handle_Find(res, criteria, function(foundItems){
+        findItem(res, criteria, function(foundItems){
             return res.status(200).json(foundItems);
         });
     } else {
@@ -178,12 +286,35 @@ app.get("/api/item/find/itemID/:itemID", function(req,res) {
 //list
 app.get("/api/item/list", function(req, res) {
     let criteria = {};
-    handle_Find(res, criteria, function(foundItems){
+    findItem(res, criteria, function(foundItems){
         return res.status(200).json(foundItems);
     });
 })
 
 //update
+app.post('/api/item/update/itemID/:itemID/quantity/:quantity', function(req, res){
+	mongoose.connect(mongourl);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+	db.once('open', async () => {
+		let Items = mongoose.model('Items', itemSchema);
+		try{
+			let originalItem={};
+			originalItem['id']=req.params.itemID;
+			const updateValue={'quantity':Number(req.params.quantity)};
+			const updateResult = await Items.findOneAndUpdate(originalItem,updateValue,{new: true});
+			console.log(updateResult);
+			return res.status(200).json({"message":"item updated successfully"});
+			console.log("update success")
+		}catch(err){
+			console.error(err);
+			console.log("Error occurred");
+		}finally{
+			db.close();
+			console.log("Closed DB update connection")
+		}
+	});
+});
 
 app.post("/api/item/update/itemID/:itemID/quantity/:quantity", function(req, res) {
     let criteria = {};
@@ -204,7 +335,7 @@ app.delete("/api/item/delete/itemID/:itemID", function(req,res){
             db.collection("items").deleteMany(criteria, function(err,results) {
                 assert.equal(err,null)
                 client.close()
-                res.status(200).end();
+                res.status(200).json({"msg": "item deleted successfully"});
             })
         });
     } else {
