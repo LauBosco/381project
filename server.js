@@ -2,9 +2,12 @@ const assert = require('assert');
 
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
+const mongoose = require('mongoose');
+const itemSchema = require('./models/Items');
 
-const mongourl = ''; 
-const dbName = 'test';
+const mongourl = 'mongodb+srv://dev:dev@cluster0.q8fti4a.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp'; 
+const dbName = '381project';
+const dbCol = 'Items'
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -25,6 +28,27 @@ app.use(session({
 }));
 app.use(express.json());
 app.use(express.urlencoded());
+
+//CRUD
+const handle_Find = function(res, criteria, callback){
+    mongoose.connect(mongourl);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+    db.once('open', async () => {
+    	let Items = mongoose.model('Items', itemSchema);
+    	try{
+        	const searchResult = await Items.find(criteria).lean().exec();
+        	//console.log(searchResult);
+    		return callback(searchResult);
+        }catch(err){
+        	console.error(err);
+        	console.log("Error occurred");
+        }finally{
+        	db.close();
+        	console.log("Closed DB connection");
+        }
+    });
+}
 
 //Routing
 app.get('/', function(req, res){
@@ -60,12 +84,20 @@ app.post('/login', function(req, res){
 });
 
 app.get('/logout', function(req, res){
+    req.session.authenticated = false;
     res.redirect('/login');
 });
 
 app.get('/home', function(req, res){
     console.log("...Welcome to the home page!");
-    return res.status(200).render("home", {item_num: 999, test1: "itemname", test2: "itemID"});
+    handle_Find(res,{}, function(foundItems){
+        var amount = foundItems.length;
+        var quantity = 0;
+        for (var item in foundItems){
+        	quantity+=foundItems[item]["quantity"];
+        }
+        return res.status(200).render("home", {quantity: quantity, amount: amount, foundItems: foundItems});
+    });
 });
 
 app.get('/search', function(req, res){
@@ -135,17 +167,10 @@ app.get("/api/item/itemID/:itemID", function(req,res) {
     if (req.params.itemID) {
         let criteria = {};
         criteria["itemID"] = req.params.itemID;
-        const client = new MongoClient(mongourl);
-        client.connect(function(err) {
-            assert.equal(null, err);
-            console.log("Server connected successfully");
-            const db = client.db(dbName);
-
-            findDocument(db, criteria, function(docs){
-                client.close();
-                console.log("Closed database connection");
-                res.status(200).json(docs);
-            });
+        handle_Find(res, criteria, function(foundItems){
+            client.close();
+            console.log("Database disconnected");
+            return res.status(200).json(foundItems);
         });
     } else {
         res.status(500).json({"error": "missing item ID"});
