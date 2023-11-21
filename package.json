@@ -15,7 +15,6 @@
         "mongodb": "*",
         "assert": "^1.4.1",
         "mongoose": "^7.5.4",
-	"node-fetch": "*"
     },
     "scripts": {
         "start": "node server.js"
