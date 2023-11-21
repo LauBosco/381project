@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Search</title>
     <style>
         label{
@@ -19,6 +18,18 @@
         	color:burlyWood;
             font-size:1.5em;
 		}
+		ol{
+   			padding:0;
+    		list-style-position:inside;
+    		border:1px solid #ddd;
+		}
+		li {
+			padding:6px;
+			border-bottom:1px solid #ddd;
+		}
+		li:last-child{
+			border-bottom:none;
+		}
     </style>
 </head>
 <body>
@@ -28,13 +39,16 @@
     <form>
         <button type="submit" formaction="/home">home</button>
     </form>
+    <b class="reminder">enter item ID or item name to search for details.</b>
     <form action="/detail" method="post">
     	<br>
-        <label for="username"><b>itemID:</b></label>
-        <input type="text" id="itemID" name="itemID" placeholder="">
-    	<button type="submit">search</button>
+        <label for="itemID"><b>item ID:</b></label>
+        <input type="text" id="itemID" name="itemID" placeholder=""><br>
+        <label for="itemName"><b>item Name:</b></label>
+        <input type="text" id="itemName" name="itemName" palceholder=""><br><br>
+    	<input type="submit" value="submit">
     </form>
-    <b class="reminder">enter itemID to search for details or create a new item.</b>
+    <%= msg %>
 </body>
 </html>
 
