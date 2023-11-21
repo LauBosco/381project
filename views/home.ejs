@@ -18,6 +18,18 @@
         	color:burlyWood;
             font-size:1.5em;
 		}
+		ol{
+   			padding:0;
+    		list-style-position:inside;
+    		border:1px solid #ddd;
+		}
+		li {
+			padding:6px;
+			border-bottom:1px solid #ddd;
+		}
+		li:last-child{
+			border-bottom:none;
+		}
     </style>
 </head>
 <body>
@@ -31,19 +43,21 @@
         <label>|</label>
         <button type="submit" formaction="/logout">logout</button>
     </form>
-    <br>
-    <b class="item_num">Total of <%= amount %> items, total quantity of <%= quantity %></b>
     <div>
+    	<%= msg %>
     	<ol>
             <% for (var i of foundItems) { %>
-            <li><ul>
-            <li>id: <%= i._id %></li>
-            <li>name: <%= i.name %></li>
-            <li>category: <%= i.category %></li>
-            <li>desc: <%= i.description %></li>
-            </ul></li>
+            <li>
+            id: <%= i.id %>
+            name: <%= i.name %><br>
+            description: <%= i.description %><br>
+            category: <%= i.category %><br>
+            quantity: <%= i.quantity %>
+            </li>
             <% } %>
         </ol>
     </div>
+    <br>
+    <b class="item_num">Total of <%= amount %> items, total quantity of <%= quantity %></b>
 </body>
 </html>
