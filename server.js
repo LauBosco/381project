@@ -268,7 +268,7 @@ app.post("/api/item/insert", function(req,res) {
 })
 
 //find
-app.get("/api/item/find/itemID/:itemID", function(req,res) {
+app.get("/api/item/find/:itemID", function(req,res) {
     if (req.params.itemID) {
         let criteria = {};
         criteria["id"] = req.params.itemID;
