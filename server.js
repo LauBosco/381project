@@ -254,8 +254,10 @@ app.post("/api/item/insert/itemID/:itemID/name/:name/quantity/:quantity", functi
     	try{
        	    let items={};
             items["id"] = req.params.itemID;	
-            items['name']= req.params.name;
-            items['quantity']= req.params.quantity;
+            items['name']= "";
+            items['quantity']= "";
+	    items["description"] = "";
+	    items["category"] = "";
             const newItem = new Item(items);
             const createItem = await newItem.save();
             console.log(createItem);
@@ -274,7 +276,7 @@ app.post("/api/item/insert/itemID/:itemID/name/:name/quantity/:quantity", functi
 app.get("/api/item/find/itemID/:itemID", function(req,res) {
     if (req.params.itemID) {
         let criteria = {};
-        criteria["_id"] = req.params.itemID;
+        criteria["id"] = req.params.itemID;
         findItem(res, criteria, function(foundItems){
             return res.status(200).json(foundItems);
         });
@@ -293,10 +295,10 @@ app.get("/api/item/list", function(req, res) {
 
 //update
 app.post('/api/item/update/itemID/:itemID/quantity/:quantity', function(req, res){
-	mongoose.connect(mongourl);
+    mongoose.connect(mongourl);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error'));
-	db.once('open', async () => {
+        db.once('open', async () => {
 		let Items = mongoose.model('Items', itemSchema);
 		try{
 			let originalItem={};
@@ -316,16 +318,11 @@ app.post('/api/item/update/itemID/:itemID/quantity/:quantity', function(req, res
 	});
 });
 
-app.post("/api/item/update/itemID/:itemID/quantity/:quantity", function(req, res) {
-    let criteria = {};
-    criteria["_id"] = req.params.itemID;
-})
-
 //delete
 app.delete("/api/item/delete/itemID/:itemID", function(req,res){
     if (req.params.itemID) {
         let criteria = {};
-        criteria["_id"] = req.params.itemID;
+        criteria["id"] = req.params.itemID;
         const client = new MongoClient(mongourl);
         client.connect(function(err){
             assert.equal(null, err);
