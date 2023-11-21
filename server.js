@@ -175,6 +175,14 @@ app.get("/api/item/itemID/:itemID", function(req,res) {
     }
 })
 
+//list
+app.get("/api/item/all", function(req, res) {
+    let criteria = {};
+    handle_Find(res, criteria, function(foundItems){
+        return res.status(200).json(foundItems);
+    });
+})
+
 //delete
 app.delete("/api/item/itemID/:itemID", function(req,res){
     if (req.params.itemID) {
