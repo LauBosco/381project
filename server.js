@@ -164,6 +164,7 @@ app.post("/api/item/itemID/:itemID", function(req,res) {
 
 //find
 app.get("/api/item/itemID/:itemID", function(req,res) {
+    console.log(req.params.itemID);
     if (req.params.itemID) {
         let criteria = {};
         criteria["itemID"] = req.params.itemID;
