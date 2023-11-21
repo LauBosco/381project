@@ -127,7 +127,7 @@ app.get('/home', function(req, res){
 
 app.get('/search', function(req, res){
     console.log("...Welcome to the search page!");
-    return res.status(200).render("search", {msg:"");
+    return res.status(200).render("search", {msg:""});
 });
 
 app.post('/detail', function(req, res){
