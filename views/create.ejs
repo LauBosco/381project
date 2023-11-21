@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create</title>
     <style>
         label{
@@ -26,21 +25,25 @@
     <form>
         <button type="submit" formaction="/home">home</button>
     </form>
-    <form action="/create" method="post">
+    <%=message%>
+    <form action="/create" method="POST">
     	<br>
-        <label for='username'><b>name:</b></label>
+    	<label for='itemID'><b>id:</b></label>
+        <input type="text" id="itemID" name="itemID" placeholder="">
+        <br>
+        <label for='name'><b>name:</b></label>
         <input type="text" id="name" name="name" placeholder="">
         <br>
-        <label for='username'><b>quantity:</b></label>
-        <input type="text" id="quantity" name="quantity" placeholder="">
+        <label for='desc'><b>description:</b></label>
+        <input type="text" id="desc" name="desc" placeholder="">
         <br>
-        <label for='username'><b>category:</b></label>
+        <label for='category'><b>category:</b></label>
         <input type="text" id="category" name="category" placeholder="">
         <br>
-        <label for='username'><b>desc:</b></label>
-        <input type="text" id="desc" name="desc" placeholder="">
+	<label for='quantity'><b>quantity:</b></label>
+        <input type="text" id="quantity" name="quantity" placeholder="">
         <br><br>
-        <button type="submit">create</button>
+        <input type="submit" value="Create" /> 
         <br>
     </form>
 </body>
