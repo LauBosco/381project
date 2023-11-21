@@ -297,7 +297,7 @@ app.get("/api/item/list", function(req, res) {
 })
 
 //update
-app.post('/api/item/update/:itemID/:quantity', function(req, res){
+app.put('/api/item/update/:itemID/:quantity', function(req, res){
     if ( !req.params.itemID || !req.params.quantity) {
 	return res.status(500).json({"error": "missing information"});
     }
