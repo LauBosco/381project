@@ -164,12 +164,10 @@ app.post("/api/item/itemID/:itemID", function(req,res) {
 
 //find
 app.get("/api/item/itemID/:itemID", function(req,res) {
-    console.log(req.params.itemID);
     if (req.params.itemID) {
         let criteria = {};
-        criteria["itemID"] = req.params.itemID;
+        criteria["_id"] = req.params.itemID;
         handle_Find(res, criteria, function(foundItems){
-            console.log("RESTful-find:", foundItems);
             return res.status(200).json(foundItems);
         });
     } else {
