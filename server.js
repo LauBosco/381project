@@ -168,7 +168,7 @@ app.get("/api/item/itemID/:itemID", function(req,res) {
         let criteria = {};
         criteria["itemID"] = req.params.itemID;
         handle_Find(res, criteria, function(foundItems){
-            return res.status(200).json(foundItems);
+            return res.status(200).foundItems;
         });
     } else {
         res.status(500).json({"error": "missing item ID"});
