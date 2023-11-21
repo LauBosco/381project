@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Home</title>
     <style>
         label{
@@ -33,11 +32,18 @@
         <button type="submit" formaction="/logout">logout</button>
     </form>
     <br>
-    <b class="item_num">There are <%= item_num %> in total.</b>
+    <b class="item_num">Total of <%= amount %> items, total quantity of <%= quantity %></b>
     <div>
-    	<ul>
-            <li>for loop deleted for testing<%= test1 %>: <%= test2 %></li>
-        </ul>
+    	<ol>
+            <% for (var i of foundItems) { %>
+            <li><ul>
+            <li>id: <%= i._id %></li>
+            <li>name: <%= i.name %></li>
+            <li>category: <%= i.category %></li>
+            <li>desc: <%= i.description %></li>
+            </ul></li>
+            <% } %>
+        </ol>
     </div>
 </body>
 </html>
