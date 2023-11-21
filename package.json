@@ -13,8 +13,8 @@
         "ejs": "*",
         "express": "*",
         "mongodb": "*",
-        "assert": "^1.4.1"
-        "mongoose": "^7.5.4"     
+        "assert": "^1.4.1",
+        "mongoose": "^7.5.4"
     },
     "scripts": {
         "start": "node server.js"
