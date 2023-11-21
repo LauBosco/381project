@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Detail</title>
     <style>
         label{
@@ -19,6 +18,18 @@
         	color:burlyWood;
             font-size:1.5em;
 		}
+		ol{
+   			padding:0;
+    		list-style-position:inside;
+    		border:1px solid #ddd;
+		}
+		li {
+			padding:6px;
+			border-bottom:1px solid #ddd;
+		}
+		li:last-child{
+			border-bottom:none;
+		}
     </style>
 </head>
 <body>
@@ -29,17 +40,18 @@
         <button type="submit" formaction="/home">home</button>
     </form>
     <div>
-    	<ul>
-        	<% for (var i of items) { %>
-            <li>name: <%= i.itemname %></li>
-			<ul><li>id: <%= i._id %></li>
-            	<li>quantity: <%= i.quantity %></li>
-                <li>category: <%= i.category %></li>
-                <li>desc: <%= i.desc %></li>
-			</ul>
-            <% } %>
-        </ul>
-        <p><%= test_var %></p>
+    	<%= msg %>
+    	<ol>
+        	<% for (var i of foundItems) { %>
+        	<li>
+            	id: <%= i.id %>
+            	name: <%= i.name %><br>
+            	description: <%= i.description %><br>
+            	category: <%= i.category %><br>
+        		quantity: <%= i.quantity %>
+        	</li>
+        	<% } %>
+    	</ol>
     </div>
     <form>
         <button type="submit" formaction="/update">update</button>
