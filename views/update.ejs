@@ -2,14 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update</title>
     <style>
-        label{
-            font-size:1em;
-            color:saddleBrown;
-            width:200;
-        }
         body{
         	background-color:beige;
         }
@@ -17,10 +11,18 @@
         	color:burlyWood;
             font-size:1.5em;
 		}
-        li{
-        	color:saddleBrown;
-            font-weight: bold;
-        }
+		ol{
+   			padding:0;
+    		list-style-position:inside;
+    		border:1px solid #ddd;
+		}
+		li {
+			padding:6px;
+			border-bottom:1px solid #ddd;
+		}
+		li:last-child{
+			border-bottom:none;
+		}
     </style>
 </head>
 <body>
@@ -31,23 +33,22 @@
         <button type="submit" formaction="/home">home</button>
     </form>
     <div>
-    	<ul>
-        	<% for (var i of items) { %>
-            <li>name: <%= i.itemname %></li>
-			<ul><li>id: <%= i._id %></li>
-            	<li>quantity: <%= i.quantity %></li>
-                <li>category: <%= i.category %></li>
-                <li>desc: <%= i.desc %></li>
-			</ul>
-            <% } %>
-        </ul>
+    	<%= msg %>
+    	<ol>
+        	<% for (var i of foundItems) { %>
+        	<li>
+            	id: <%= i.id %>
+            	name: <%= i.name %><br>
+            	description: <%= i.description %><br>
+            	category: <%= i.category %>
+            	<form action="/update" method="post">
+        		quantity: <input type="text" id="quantity" name="quantity" placeholder="<%= i.quantity %>">
+        	</li>
+        	<% } %>
+    	</ol>
     </div>
-    <form action="/update" method="post">
-        <label for='username'><b>quantity:</b></label>
-        <input type="text" id="quantity" name="quantity" placeholder="">
-        <br><br>
-        <button type="submit">update</button>
         <br>
+        <input type="submit" value="update">
     </form>
 </body>
 </html>
