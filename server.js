@@ -223,29 +223,27 @@ app.get('/delete', function(req, res){
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error'));
 	db.once('open', async () => {
-		try{
-			let Items = mongoose.model('Items', itemSchema);
+	    try{
+		let Items = mongoose.model('Items', itemSchema);
     		let criteria={};
     		criteria['id'] = currentItem[0].id;
     		const deleteResult = await Items.findOneAndDelete(criteria);
     		console.log(deleteResult);
     		deleteMsg=`Item ${currentItem[0].id} is successfully deleted.`;
     		return res.status(200).redirect("/home");
-    	}catch(err){
+    	    }catch(err){
     		console.error(err);
     		console.log("Error occurred");
-    	}finally{
+    	    }finally{
     		db.close();
     		console.log("Closed DB delete connection")
-    	}
+    	    }
 	});
 });
 
-
-
 //Restful
 //insert
-app.post("/api/item/insert/:itemID", function(req,res) {
+app.post("/api/item/insert", function(req,res) {
     if ( !req.params.itemID) {
 	return res.status(500).json({"error": "missing itemID"});
     }
@@ -255,13 +253,7 @@ app.post("/api/item/insert/:itemID", function(req,res) {
     db.once('open', async () => {
     	const Item = mongoose.model('Items',itemSchema);
     	try{
-       	    let items={};
-            items["id"] = req.params.itemID;	
-            items['name']= "";
-            items['quantity']= "";
-	    items["description"] = "";
-	    items["category"] = "";
-            const newItem = new Item(items);
+            const newItem = new Item(req.body);
             const createItem = await newItem.save();
             console.log(createItem);
             console.log('Item created!');
