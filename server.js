@@ -121,7 +121,7 @@ app.get('/home', function(req, res){
         for (var item in foundItems){
         	quantity+=foundItems[item]["quantity"];
         }
-        return res.status(200).render("home", {quantity: quantity, amount: amount, foundItems: foundItems});
+        return res.status(200).render("home", {msg:deleteMsg, quantity: quantity, amount: amount, foundItems: foundItems});
     });
 });
 
