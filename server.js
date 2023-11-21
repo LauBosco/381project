@@ -245,7 +245,10 @@ app.get('/delete', function(req, res){
 
 //Restful
 //insert
-app.post("/api/item/insert/itemID/:itemID/name/:name/quantity/:quantity", function(req,res) {
+app.post("/api/item/insert/:itemID", function(req,res) {
+    if ( !req.params.itemID) {
+	return res.status(500).json({"error": "missing itemID"});
+    }
     mongoose.connect(mongourl);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error'));
@@ -294,7 +297,10 @@ app.get("/api/item/list", function(req, res) {
 })
 
 //update
-app.post('/api/item/update/itemID/:itemID/quantity/:quantity', function(req, res){
+app.post('/api/item/update/:itemID/:quantity', function(req, res){
+    if ( !req.params.itemID || !req.params.quantity) {
+	return res.status(500).json({"error": "missing information"});
+    }
     mongoose.connect(mongourl);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error'));
@@ -319,7 +325,7 @@ app.post('/api/item/update/itemID/:itemID/quantity/:quantity', function(req, res
 });
 
 //delete
-app.delete("/api/item/delete/itemID/:itemID", function(req,res){
+app.delete("/api/item/delete/:itemID", function(req,res){
     if (req.params.itemID) {
         let criteria = {};
         criteria["id"] = req.params.itemID;
