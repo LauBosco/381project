@@ -138,7 +138,7 @@ app.get('/delete', function(req, res){
 
 //Restful
 //insert
-app.post("/api/item/itemID/:itemID", function(req,res) {
+app.post("/api/item/insert/itemID/:itemID", function(req,res) {
     if (req.params.itemID) {
         console.log(req.body)
         const client = new MongoClient(mongourl);
@@ -163,7 +163,7 @@ app.post("/api/item/itemID/:itemID", function(req,res) {
 })
 
 //find
-app.get("/api/item/itemID/:itemID", function(req,res) {
+app.get("/api/item/find/itemID/:itemID", function(req,res) {
     if (req.params.itemID) {
         let criteria = {};
         criteria["_id"] = req.params.itemID;
@@ -176,18 +176,25 @@ app.get("/api/item/itemID/:itemID", function(req,res) {
 })
 
 //list
-app.get("/api/item/all", function(req, res) {
+app.get("/api/item/list", function(req, res) {
     let criteria = {};
     handle_Find(res, criteria, function(foundItems){
         return res.status(200).json(foundItems);
     });
 })
 
+//update
+
+app.post("/api/item/update/itemID/:itemID/quantity/:quantity", function(req, res) {
+    let criteria = {};
+    criteria["_id"] = req.params.itemID;
+})
+
 //delete
-app.delete("/api/item/itemID/:itemID", function(req,res){
+app.delete("/api/item/delete/itemID/:itemID", function(req,res){
     if (req.params.itemID) {
         let criteria = {};
-        criteria["itemID"] = req.params.itemID;
+        criteria["_id"] = req.params.itemID;
         const client = new MongoClient(mongourl);
         client.connect(function(err){
             assert.equal(null, err);
