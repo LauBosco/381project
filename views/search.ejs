@@ -2,18 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search</title>
+    <title>Update</title>
     <style>
-        label{
-            font-size:1em;
-            color:saddleBrown;
-            display:table-cell;
-        }
         body{
         	background-color:beige;
-        }
-        .reminder{
-        	color:gray;
         }
         .heading{
         	color:burlyWood;
@@ -31,17 +23,6 @@
 		li:last-child{
 			border-bottom:none;
 		}
-		form{
-			display:table;
-		}
-		p{
-			display:table-row;
-		}
-		input{
-			display:table-cell;
-			margin:1px;
-			margin-left:5px;
-		}
     </style>
 </head>
 <body>
@@ -51,33 +32,23 @@
     <form>
         <button type="submit" formaction="/home">home</button>
     </form>
-    <b class="reminder">enter info to search for details.</b>
-    <form action="/detail" method="post">
-    	<p>
-        <label for="itemID"><b>Item ID:</b></label>
-        <input type="text" id="itemID" name="itemID" placeholder="">
-        </p>
-        <p>
-        <label for="itemName"><b>Item Name:</b></label>
-        <input type="text" id="itemName" name="itemName" palceholder="">
-        </p>
-        <p>
-        <label for="Category"><b>Category:</b></label>
-        <input type="text" id="category" name="category" palceholder="">
-        </p>
-        <p>
-        <label for="Quantity"><b>Quantity:</b></label>
-        <select name="compare" id="compare">
-        	<option value="$gte">>=</option>
-        	<option value="$lte"><=</option>
-        </select>
-        <input type="text" id="quantity" name="quantity" palceholder="" size="14">
-        </p>
+    <div>
+    	<%= msg %>
+    	<ol>
+        	<% for (var i of foundItems) { %>
+        	<li>
+            	<b>ID:</b> <%= i.id %>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Name:</b> <%= i.name %><br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> <%= i.description %><br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Category:</b> <%= i.category %><br>
+            	<form action="/update" method="post">
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Quantity:</b> <input type="text" id="quantity" name="quantity" placeholder="<%= i.quantity %>">
+        	</li>
+        	<% } %>
+    	</ol>
+    </div>
         <br>
-    	<input type="submit" value="submit">
+        <input type="submit" value="update">
     </form>
-    <%= msg %>
 </body>
 </html>
-
-    
