@@ -258,6 +258,12 @@ app.get("/api/item/login/:username/:password", function(req,res) {
     return res.status(500).json({"error":"wrong username or password"})
 })
 
+//logout
+app.get("/api/item/login/:username/:password", function(req,res) {
+    req.session.authenticated = false;
+    return res.status(200).json({"message":"logged out successfully"})
+})
+
 //insert
 app.post("/api/item/insert", function(req,res) {
     if(!req.session.authenticated){
