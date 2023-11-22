@@ -40,22 +40,24 @@
         <button type="submit" formaction="/home">home</button>
     </form>
     <div>
-    	<%= msg %>
+    	<b style="color:gray;"><%= msg %></b>
     	<ol>
         	<% for (var i of foundItems) { %>
         	<li>
-            	id: <%= i.id %>
-            	name: <%= i.name %><br>
-            	description: <%= i.description %><br>
-            	category: <%= i.category %><br>
-        		quantity: <%= i.quantity %>
+            	<b>ID:</b> <%= i.id %>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Name:</b> <%= i.name %><br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> <%= i.description %><br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Category:</b> <%= i.category %><br>
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Quantity:</b> <%= i.quantity %>
         	</li>
         	<% } %>
     	</ol>
     </div>
-    <form>
-        <button type="submit" formaction="/update">update</button>
-        <button type="submit" formaction="/delete">delete</button>
+    <form action="/updateDetail" method="post">
+   		<b style="color:gray;">Enter one item ID to update/delete</b><br>
+   		<input type="text" id="updateID" name="updateID" palceholder="">
+   		<input type="submit" value="update">
+   		<button type="submit" formaction="/delete">delete</button>
     </form>
 </body>
 </html>
