@@ -134,7 +134,7 @@ In this project, there are 7 RESTful services.
 - delete
   - Request Type: DELETE
   - URL path: /api/item/delete/:itemID
-  - Test: curl -X GET https://project-test-381.onrender.com/api/item/logout
+  - Test: curl -X DELETE https://project-test-381.onrender.com/api/item/delete/9999
   - Desc: to delete an item from the database
   
 
