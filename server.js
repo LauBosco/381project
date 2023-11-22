@@ -29,8 +29,8 @@ app.use(session({
     userid: "session",
     keys: [SECRETKEY],
 }));
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 //CRUD
 //read
@@ -244,8 +244,8 @@ app.get('/delete', function(req, res){
 //Restful
 //insert
 app.post("/api/item/insert", function(req,res) {
-    if ( !req.params.itemID) {
-	return res.status(500).json({"error": "missing itemID"});
+    if(!req.session.authenticated){
+        return res.status(500).json({"error":"login required"})
     }
     mongoose.connect(mongourl);
     const db = mongoose.connection;
@@ -269,6 +269,9 @@ app.post("/api/item/insert", function(req,res) {
 
 //find
 app.get("/api/item/find/:itemID", function(req,res) {
+    if(!req.session.authenticated){
+        return res.status(500).json({"error":"login required"})
+    }
     if (req.params.itemID) {
         let criteria = {};
         criteria["id"] = req.params.itemID;
@@ -282,6 +285,9 @@ app.get("/api/item/find/:itemID", function(req,res) {
 
 //list
 app.get("/api/item/list", function(req, res) {
+    if(!req.session.authenticated){
+        return res.status(500).json({"error":"login required"})
+    }
     let criteria = {};
     findItem(res, criteria, function(foundItems){
         return res.status(200).json(foundItems);
@@ -290,8 +296,11 @@ app.get("/api/item/list", function(req, res) {
 
 //update
 app.put('/api/item/update/:itemID/:quantity', function(req, res){
+    if(!req.session.authenticated){
+        return res.status(500).json({"error":"login required"})
+    }
     if ( !req.params.itemID || !req.params.quantity) {
-	return res.status(500).json({"error": "missing information"});
+	    return res.status(500).json({"error": "missing information"});
     }
     mongoose.connect(mongourl);
     const db = mongoose.connection;
@@ -318,24 +327,31 @@ app.put('/api/item/update/:itemID/:quantity', function(req, res){
 
 //delete
 app.delete("/api/item/delete/:itemID", function(req,res){
-    if (req.params.itemID) {
-        let criteria = {};
-        criteria["id"] = req.params.itemID;
-        const client = new MongoClient(mongourl);
-        client.connect(function(err){
-            assert.equal(null, err);
-            console.log("Server connected successfully");
-            const db = client.db(dbName);
-
-            db.collection("items").deleteMany(criteria, function(err,results) {
-                assert.equal(err,null)
-                client.close()
-                res.status(200).json({"msg": "item deleted successfully"});
-            })
-        });
-    } else {
-        res.status(500).json({"error": "missing item ID"});       
+    if(!req.session.authenticated){
+        return res.status(500).json({"error":"login required"})
     }
+    if ( !req.params.itemID ) {
+	    return res.status(500).json({"error": "missing itemID"});
+    }
+    mongoose.connect(mongourl);
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+	db.once('open', async () => {
+	    try{
+		let Items = mongoose.model('Items', itemSchema);
+    		let criteria={};
+    		criteria['id'] = req.params.itemID;
+    		const deleteResult = await Items.findOneAndDelete(criteria);
+    		console.log(deleteResult);
+            return res.status(200).json({"message":"item deleted successfully"});
+    	}catch(err){
+    		console.error(err);
+    		console.log("Error occurred");
+    	}finally{
+    		db.close();
+    		console.log("Closed DB delete connection")
+    	}
+	});
 })
 
 app.listen(process.env.PORT || 8099);
