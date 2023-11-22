@@ -19,7 +19,7 @@
             font-size:1.5em;
 		}
 		ol{
-   			padding:0;
+   			padding:2px;
     		list-style-position:inside;
     		border:1px solid #ddd;
 		}
@@ -44,15 +44,15 @@
         <button type="submit" formaction="/logout">logout</button>
     </form>
     <div>
-    	<%= msg %>
+    	<b style="color:gray;"><%= msg %></b>
     	<ol>
             <% for (var i of foundItems) { %>
             <li>
-            id: <%= i.id %>
-            name: <%= i.name %><br>
-            description: <%= i.description %><br>
-            category: <%= i.category %><br>
-            quantity: <%= i.quantity %>
+            <b>ID:</b> <%= i.id %>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Name:</b> <%= i.name %><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> <%= i.description %><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Category:</b> <%= i.category %><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Quantity:</b> <%= i.quantity %>
             </li>
             <% } %>
         </ol>
