@@ -242,6 +242,22 @@ app.get('/delete', function(req, res){
 });
 
 //Restful
+//login
+app.get("/api/item/login/:username/:password", function(req,res) {
+    if (!req.params.username || !req.params.password) {
+        return res.status(500).json({"error":"missing username or password"})
+    }
+    for (const account in userAccount){
+        if (userAccount[account]["name"] == req.params.username && userAccount[account]["password"] == req.params.password) {
+            req.session.authenticated = true;
+            req.session.userid = userAccount[account]["name"];
+            console.log(req.session.userid);
+            return res.status(200).json({"message":"logged in successfully"})
+        }
+    }
+    return res.status(500).json({"error":"wrong username or password"})
+})
+
 //insert
 app.post("/api/item/insert", function(req,res) {
     if(!req.session.authenticated){
