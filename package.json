@@ -1,7 +1,7 @@
 {
     "name": "server",
     "description": "COMPS381F project - inventory management system",
-    "author": "Lau Lok Lam, , ",
+    "author": "Lau Lok Lam, Ng Man Kwan, Tsang Tsz Yui",
     "version": "0.0.1",
     "engines": {
 		"node": ">=8.0.0",
