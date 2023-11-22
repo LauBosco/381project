@@ -385,5 +385,3 @@ app.delete("/api/item/delete/:itemID", function(req,res){
 })
 
 app.listen(process.env.PORT || 8099);
-
-app.listen(process.env.PORT || 8099);
