@@ -37,12 +37,12 @@
     	<ol>
         	<% for (var i of foundItems) { %>
         	<li>
-            	id: <%= i.id %>
-            	name: <%= i.name %><br>
-            	description: <%= i.description %><br>
-            	category: <%= i.category %>
+            	<b>ID:</b> <%= i.id %>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Name:</b> <%= i.name %><br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Description:</b> <%= i.description %><br>
+            	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Category:</b> <%= i.category %><br>
             	<form action="/update" method="post">
-        		quantity: <input type="text" id="quantity" name="quantity" placeholder="<%= i.quantity %>">
+        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Quantity:</b> <input type="text" id="quantity" name="quantity" placeholder="<%= i.quantity %>">
         	</li>
         	<% } %>
     	</ol>
