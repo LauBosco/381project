@@ -2,32 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Login</title>
     <style>
         label{
             font-size:1.2em;
-            color:saddleBrown;
+            color:#323232;
         }
         body{
-        	background-color:beige;
+        	display: grid;
+            height: 100%;
+            place-items: center;
+        	background-color:#6ACFC7;
         }
         .heading{
-        	color:burlyWood;
-            font-size:1.5em;
+        	color:#0C1A1A;
+            font-size:1.2em;
 		}
+        .wrapper{
+  			width: 100%;
+  			background: #fff;
+  			border-radius: 10px;
+  			box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.1);
+		}
+
+        .title{
+        	font-size:1.2em;
+  			height: 50px;
+  			background:#0C1A1A;
+  			border-radius: 5px 5px 0 0;
+  			color: #fff;
+  			font-size: 30px;
+  			font-weight: 600;
+  			display: flex;
+  			align-items: center;
+  			justify-content: center;
+		}
+        .wrapper form{
+  			padding: 30px 25px 25px 25px;
+		}
+		.wrapper form .row{
+  			height: 45px;
+  			margin-bottom: 1px;
+  			position: relative;
+		}
+		.wrapper form .row input{
+ 			height: relative;
+  			width: relative;
+  			outline: none;
+  			border-radius: 5px;
+  			border: 1px solid lightgrey;
+  			font-size: 16px;
+  			transition: all 0.3s ease;
+		}
+        .wrapper form .button{
+			height: relative;
+  			width: 100%;
+            font-size: 20px;
+            padding-left: 0px;
+  			background: #0C1A1A;
+            color: #fff
+		}   
     </style>
 </head>
 <body>
+	
     <div class="heading">
         <h1>Inventory Management System</h1>
     </div>
-    <form action="/login" method="post">
-        <label for='username'><b>Username:</b></label><br>
-        <input type="text" id="username" name="username" placeholder=""><br>
-        <label for='password'><b>Password:</b></label><br>
-        <input type="password" id="password" name="password" placeholder=""><br><br>
-    	<button type="submit">Login</button>
-	</form>
+    <div class="container">
+        <div class = "wrapper">
+            <div class = "title"> Login </div>
+            <form action="/login" method="post">
+    	        <div class = "row">
+    	            <i class = "fa fa-user"></i>
+                    <label for='username'><b>Username:</b></label><br>
+                    <input type="text" id="username" name="username" placeholder="" required><br>
+                </div>
+                <div class = "row">
+    	            <i class = "fa fa-lock"></i>
+                    <label for='password'><b>Password:</b></label><br>
+                    <input type="password" id="password" name="password" placeholder="" required><br><br>
+                </div>
+                <br>
+    	        <button type="submit" class="button">Login</button>
+	        </form>
+        </div>
+    </div>
 </body>
 </html>
