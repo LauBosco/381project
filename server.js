@@ -118,6 +118,7 @@ app.get('/home', function(req, res){
     returnMsg='';
     findItem(res,{}, function(allItems){
         var amount = allItems.length;
+	nextID = "";
         nextID+=(amount+1);
         var quantity = 0;
         for (var item in allItems){
@@ -267,7 +268,7 @@ app.get("/api/item/login/:username/:password", function(req,res) {
 })
 
 //logout
-app.get("/api/item/login/:username/:password", function(req,res) {
+app.get("/api/item/logout", function(req,res) {
     req.session.authenticated = false;
     return res.status(200).json({"message":"logged out successfully"})
 })
