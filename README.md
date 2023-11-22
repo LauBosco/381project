@@ -97,45 +97,45 @@ In this project, there are 7 RESTful services.
 
 
 - logout
-  Request Type: GET
-  URL path: /api/item/logout
-  Test: curl -X GET https://project-test-381.onrender.com/api/item/logout
-  Desc: to logout
+  - Request Type: GET
+  - URL path: /api/item/logout
+  - Test: curl -X GET https://project-test-381.onrender.com/api/item/logout
+  - Desc: to logout
 
 
 - list
-  Request Type: GET
-  URL path: /api/item/list
-  Test: curl -X GET https://project-test-381.onrender.com/api/item/list
-  Desc: to list all items in the database
+  - Request Type: GET
+  - URL path: /api/item/list
+  - Test: curl -X GET https://project-test-381.onrender.com/api/item/list
+  - Desc: to list all items in the database
 
 
 - find
-  Request Type: GET
-  URL path: /api/item/find/:itemID
-  Test: curl -X GET https://project-test-381.onrender.com/api/item/find/9999
-  Desc: to find a single item with its id
+  - Request Type: GET
+  - URL path: /api/item/find/:itemID
+  - Test: curl -X GET https://project-test-381.onrender.com/api/item/find/9999
+  - Desc: to find a single item with its id
 
 
 - insert
-  Request Type: POST
-  URL path: /api/item/insert
-  Test: curl -X POST -H "Content-Type: application/json" --data '{"name": "insert", "id":"9999", "description":"test", "category":"test", "quantity":"1"}' https://project-test-381.onrender.com/api/item/insert
-  Desc: to insert new item to the database
+  - Request Type: POST
+  - URL path: /api/item/insert
+  - Test: curl -X POST -H "Content-Type: application/json" --data '{"name": "insert", "id":"9999", "description":"test", "category":"test", "quantity":"1"}' https://project-test-381.onrender.com/api/item/insert
+  - Desc: to insert new item to the database
 
 
 - update
-  Request Type: PUT
-  URL path: /api/item/update/:itemID/:quantity
-  Test: curl -X PUT https://project-test-381.onrender.com/api/item/update/9999/99
-  Desc: to update the quantity of an item
+  - Request Type: PUT
+  - URL path: /api/item/update/:itemID/:quantity
+  - Test: curl -X PUT https://project-test-381.onrender.com/api/item/update/9999/99
+  - Desc: to update the quantity of an item
 
 
 - delete
-  Request Type: DELETE
-  URL path: /api/item/delete/:itemID
-  Test: curl -X GET https://project-test-381.onrender.com/api/item/logout
-  Desc: to delete an item from the database
+  - Request Type: DELETE
+  - URL path: /api/item/delete/:itemID
+  - Test: curl -X GET https://project-test-381.onrender.com/api/item/logout
+  - Desc: to delete an item from the database
   
 
 
