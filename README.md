@@ -90,10 +90,10 @@ In this project, there are 7 RESTful services.
 
 
 - login
-  Request Type: GET
-  URL path: /api/item/login/:username/:password
-  Test: curl -X GET https://project-test-381.onrender.com/api/item/login/user1/password1
-  Desc: to login with username and password
+  - Request Type: GET
+  - URL path: /api/item/login/:username/:password
+  - Test: curl -X GET https://project-test-381.onrender.com/api/item/login/user1/password1
+  - Desc: to login with username and password
 
 
 - logout
