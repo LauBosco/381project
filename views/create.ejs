@@ -8,6 +8,7 @@
             font-size:1em;
             color:saddleBrown;
             width:200;
+            display:table-cell;
         }
         body{
         	background-color:beige;
@@ -15,6 +16,21 @@
         .heading{
         	color:burlyWood;
             font-size:1.5em;
+		}
+		form{
+			display:table;
+		}
+		p{
+			display:table-row;
+		}
+		input{
+			display:table-cell;
+			margin:1px;
+			margin-left:5px;
+			border: 2px solid green;
+		}
+		input:invalid{
+			border: 2px dashed red;
 		}
     </style>
 </head>
@@ -25,24 +41,29 @@
     <form>
         <button type="submit" formaction="/home">home</button>
     </form>
-    <%=message%>
+    <b style="color:gray;"><%=message%></b>
     <form action="/create" method="POST">
-    	<br>
-    	<label for='itemID'><b>id:</b></label>
-        <input type="text" id="itemID" name="itemID" placeholder="">
-        <br>
-        <label for='name'><b>name:</b></label>
-        <input type="text" id="name" name="name" placeholder="">
-        <br>
-        <label for='desc'><b>description:</b></label>
+    	<p>
+    	<label for='itemID'><b>ID:</b></label>
+        <input type="text" id="itemID" name="itemID" value="<%= nextID %>" required>*
+        </p>
+        <p>
+        <label for='name'><b>Name:</b></label>
+        <input type="text" id="name" name="name" placeholder="" required>*
+        </p>
+        <p>
+        <label for='desc'><b>Description:</b></label>
         <input type="text" id="desc" name="desc" placeholder="">
+        </p>
+        <p>
+        <label for='category'><b>Category:</b></label>
+        <input type="text" id="category" name="category" placeholder="" required>*
+        </p>
+        <p>
+		<label for='quantity'><b>Quantity:</b></label>
+        <input type="text" id="quantity" name="quantity" placeholder="" required>*
+        </p>
         <br>
-        <label for='category'><b>category:</b></label>
-        <input type="text" id="category" name="category" placeholder="">
-        <br>
-	<label for='quantity'><b>quantity:</b></label>
-        <input type="text" id="quantity" name="quantity" placeholder="">
-        <br><br>
         <input type="submit" value="Create" /> 
         <br>
     </form>
